@@ -1,0 +1,32 @@
+<div class="card">
+  {% if post.image %}
+    <img src="{{ post.image.url }}" class="card-img-top">
+  {% endif %}
+  <div class="card-body">
+    <h2 class="card-title">
+      <a class="text-reset text-decoration-none" href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a>
+    </h2>
+    <div class="card-text">{{ post.text|truncatewords:10 }}</div>
+  </div>
+  <div class="card-footer text-muted">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <span>{{ post.pub_date|date:"d.m.Y H:i" }}</span>
+        {% if post.location and post.location.is_published %}
+          <span>{{ post.location.name }}</span>
+        {% endif %}
+      </div>
+      <div>
+        Автор: <a href="{% url 'blog:profile' post.author.username %}">{{ post.author.get_full_name|default:post.author.username }}</a>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mt-1">
+      <div>
+        Категория: <a href="{% url 'blog:category_posts' post.category.slug %}">{{ post.category.title }}</a>
+      </div>
+      <div>
+        <span class="text-muted">({{ post.comment_count|default:0 }})</span>
+      </div>
+    </div>
+  </div>
+</div>
